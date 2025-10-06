@@ -449,7 +449,7 @@ function prompt {
 }
 
 function promptMinimal {
-    "$([char]27)[32m$([Environment]::UserName)$([char]27)[0m@$([char]27)[34m$env:COMPUTERNAME.Split('.')[0]$([char]27)[0m $([char]27)[35m$(Split-Path $PWD -Leaf)$([char]27)[0m$ "
+    "$([char]27)`[32m$([Environment]::UserName)$([char]27)`[0m@$([char]27)`[34m$env:COMPUTERNAME.Split('.')[0]$([char]27)`[0m $([char]27)`[35m$(Split-Path $PWD -Leaf)$([char]27)`[0m$ "
 }
 
 function promptGit {
@@ -786,7 +786,7 @@ function sysinfo {
             $free = [math]::Round($_.SizeRemaining / 1GB, 1)
             $total = [math]::Round($_.Size / 1GB, 1)
             $percent = [math]::Round($used / $total * 100, 1)
-            Write-Host "   $($_.DriveLetter):\ ${used}GB used, ${free}GB free of ${total}GB (${percent}%)" -ForegroundColor White
+            Write-Host "   $($_.DriveLetter):\ ${used}GB used, ${free}GB free of ${total}GB (${percent}%%)" -ForegroundColor White
         }
     } catch { Write-Host "   Storage: Information unavailable" -ForegroundColor Red }
 
@@ -962,7 +962,7 @@ function pphelp {
     Write-Host '======================'
     Write-Host '  gs  - git status | ga - git add | gc - git commit'
     Write-Host '  gp  - git push  | gpl - git pull | gl - git log'
-    Write-Host '  gcom - Git add all & commit | lazyg - Add, commit & push'
+    Write-Host "  gcom - Git add all & commit | lazyg - Add, commit & push"
     Write-Host ''
 
     Write-Host '  SYSTEM INFO' -ForegroundColor Yellow
