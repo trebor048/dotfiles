@@ -422,10 +422,10 @@ function Initialize-Environment {
 function Get-GitBranch {
     try {
         $branch = & git rev-parse --abbrev-ref HEAD 2>$null
-        return $branch ? " ($branch)" : ""
-    } 
-    catch { 
-        return "" 
+        if ($branch) { return " ($branch)" } else { return "" }
+    }
+    catch {
+        return ""
     }
 }
 
@@ -689,7 +689,8 @@ function Get-AliasDescription {
         "pi" = "Pnpm install"; "venv" = "Create Python virtual environment"; "actv" = "Activate Python venv"
     }
 
-    return $descriptions[$aliasName] ?? "No description available"
+    $desc = $descriptions[$aliasName]
+    if ($null -ne $desc) { return $desc } else { return "No description available" }
 }
 
 # -----------------------------------------------------------------------------
