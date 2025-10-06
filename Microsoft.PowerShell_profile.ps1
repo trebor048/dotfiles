@@ -448,11 +448,11 @@ function prompt {
     return " "
 }
 
-function prompt-minimal {
+function promptMinimal {
     "$([char]27)[32m$([Environment]::UserName)$([char]27)[0m@$([char]27)[34m$env:COMPUTERNAME.Split('.')[0]$([char]27)[0m $([char]27)[35m$(Split-Path $PWD -Leaf)$([char]27)[0m$ "
 }
 
-function prompt-git {
+function promptGit {
     $gitBranch = Get-GitBranch
     if ($script:isAdmin) {
         "🔴[$(Split-Path $PWD -Leaf)$gitBranch] # "
@@ -464,8 +464,8 @@ function prompt-git {
 function Set-PromptStyle {
     param([ValidateSet("default", "minimal", "git")][string]$style)
     switch ($style) {
-        "minimal" { Set-Item -Path function:prompt -Value ${function:prompt-minimal}.Clone() }
-        "git" { Set-Item -Path function:prompt -Value ${function:prompt-git}.Clone() }
+        "minimal" { Set-Item -Path function:prompt -Value ${function:promptMinimal}.Clone() }
+        "git" { Set-Item -Path function:prompt -Value ${function:promptGit}.Clone() }
         default { Set-Item -Path function:prompt -Value ${function:prompt}.Clone() }
     }
 }
@@ -543,16 +543,16 @@ function cd.... { Set-Location ..\..\.. }
 # -----------------------------------------------------------------------------
 # 🐙 GIT WORKFLOW
 # -----------------------------------------------------------------------------
-function git-status { git status $args }
-function git-add { git add $args }
-function git-commit { git commit $args }
-function git-push { git push $args }
-function git-pull { git pull $args }
-function git-log { git log --oneline $args }
-function git-branch { git branch $args }
-function git-checkout { git checkout $args }
-function git-checkout-branch { git checkout -b $args }
-function git-diff { git diff $args }
+function gitStatus { git status $args }
+function gitAdd { git add $args }
+function gitCommit { git commit $args }
+function gitPush { git push $args }
+function gitPull { git pull $args }
+function gitLog { git log --oneline $args }
+function gitBranch { git branch $args }
+function gitCheckout { git checkout $args }
+function gitCheckoutBranch { git checkout -b $args }
+function gitDiff { git diff $args }
 
 function gcom {
     param([string]$message)
@@ -712,7 +712,7 @@ function tail { param([string]$file, [int]$lines = 10) Get-Content $file -Tail $
 function head { param([string]$file, [int]$lines = 10) Get-Content $file -Head $lines }
 function which { param([string]$name) Get-Command $name -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Definition }
 function export { param([string]$name, [string]$value) Set-Item -Force -Path "env:$name" -Value $value }
-function reload-profile {
+function reloadP {
     Write-Host "🔄 Reloading PowerShell profile..." -ForegroundColor Cyan
     try {
         & $profile
@@ -796,12 +796,12 @@ function sysinfo {
 # -----------------------------------------------------------------------------
 # 🤖 AI-POWERED ASSISTANT
 # -----------------------------------------------------------------------------
-function ai-help {
+function aiHelp {
     param([string]$query)
 
     if (!$query) {
         Write-Host "🤖 AI Assistant - Your intelligent PowerShell companion" -ForegroundColor Cyan
-        Write-Host "Usage: ai-help 'describe what you want to do'" -ForegroundColor Yellow
+        Write-Host "Usage: aiHelp 'describe what you want to do'" -ForegroundColor Yellow
         return
     }
 
@@ -826,15 +826,15 @@ function ai-help {
     }
 
     if (!$found) {
-        Write-Host "🔍 Try: ai-search '$query' or pphelp | grep '$query'" -ForegroundColor Cyan
+        Write-Host "🔍 Try: aiSearch '$query' or pphelp | grep '$query'" -ForegroundColor Cyan
     }
 }
 
-function ai-explain {
+function aiExplain {
     param([string]$command)
 
     if (!$command) {
-        Write-Host "Usage: ai-explain 'command to explain'" -ForegroundColor Yellow
+        Write-Host "Usage: aiExplain 'command to explain'" -ForegroundColor Yellow
         return
     }
 
@@ -855,7 +855,7 @@ function ai-explain {
 # -----------------------------------------------------------------------------
 # 🎮 INTERACTIVE MENUS
 # -----------------------------------------------------------------------------
-function devmenu {
+function devMenu {
     do {
         Clear-Host
         Write-HostFullWidth "══════════════════════════════════════" -ForegroundColor Cyan
